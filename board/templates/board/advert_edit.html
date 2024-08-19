@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<h1>Изменить объявление {{ object.subject }}</h1>
+<hr>
+{% if user == advert_user  or is_url_create %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Сохранить" />
+</form>
+{% else %}
+<h3>Вы не можете редактировать это объявление!</h3>
+{% endif %}
+{% endblock content %}

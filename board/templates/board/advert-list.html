@@ -1,0 +1,79 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% load custom_tags %}
+
+
+{% block title %}
+Adverts
+{% endblock title %}
+
+{% block content %}
+
+          <h2>Найти объявление</h2>
+    <hr>
+    <br>
+        {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+           <form action="" method="get">
+
+               {{ filterset.form.as_p }}
+
+               <input type="submit" value="Найти" />
+           </form>
+
+ <br>
+<hr>
+
+<br>
+
+<h2>Объявления</h2>
+<br>
+    {% for advert in object_list %}
+
+        <h2><a href="{{ advert.get_absolute_url }}">{{ advert.subject|truncatechars:45 }}</a></h2>
+        <p>Рубрика: {{ advert.filters }}</p>
+        <p>Цена: {{ advert.price|currency }}</p>
+        <p>Дата создания: {{ advert.created }}</p>
+        <p>Пользователь: {{ advert.user }}</p>
+
+        <p>
+            {% if advert.file %}
+            <p>Изображения: <img src="{{ advert.file.url }}" style="width: 60px;" alt=""></p>
+            {% endif %}
+
+        </p>
+
+        <hr>
+
+
+    {% endfor %}
+
+
+
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+
+   {{ page_obj.number }}
+
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+    <br>
+    <br>
+&nbsp;&nbsp;&nbsp;
+
+
+{% endblock content %}

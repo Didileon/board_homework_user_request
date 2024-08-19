@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<h1>Удаление объявления {{ object.subject }}</h1>
+<br>
+<hr>
+<br><br>
+{% if user == advert_user %}
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Удаляем "{{ object.subject }}"? </p>
+    <input type="submit" value="Да!" />
+</form>
+{% else %}
+<h3>Вы не можете удалить это объявление!</h3>
+{% endif %}
+{% endblock content %}
